@@ -1,0 +1,27 @@
+
+
+.editbtn{
+    margin-right: 10px;
+}
+
+@media (max-width: 991px) {
+    .faBkiP{
+        min-width: inherit !important;
+    }
+    .sc-AykKF{
+        font-size: 10px;
+    }
+    .btnbox > button{
+      text-align: start;
+      font-size: 10px;
+      display: flex;
+    }
+    .editbtn {
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+    .deletebtn {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+  }
