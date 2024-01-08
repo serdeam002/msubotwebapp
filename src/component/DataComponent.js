@@ -71,7 +71,7 @@ const DataComponent = () => {
 
     const handleDelete = (id) => {
         // Send the delete request to the server
-        axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`)
+        axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`,config)
             .then(response => {
                 console.log(response.data);
                 // Remove the deleted item from the data state
