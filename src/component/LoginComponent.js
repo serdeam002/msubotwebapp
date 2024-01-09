@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const LoginComponent = ({ onLogin }) => {
-    console.log('Rendered LoginComponent');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

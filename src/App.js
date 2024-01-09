@@ -14,12 +14,22 @@ const App = () => {
   useEffect(() => {
     // Check for the presence of the token in local storage
     const token = localStorage.getItem('token');
+    const allowedRoutes = ['/', '/data'];  // รายการเส้นทางที่อนุญาต
+
     if (token) {
       setLoggedIn(true);
 
-      // If there is a token and the user tries to go to the login page, redirect to /data
-      if (currentLocation.pathname === '/' || currentLocation.pathname === '/login') {
+      // ถ้ามี token และผู้ใช้พยายามไปยังเส้นทางที่ไม่ได้รับอนุญาต, ให้ทำการ redirect ไปที่ /data
+      if (!allowedRoutes.includes(currentLocation.pathname) || currentLocation.pathname === '/') {
         navigate('/data');
+      }
+
+    } else {
+      setLoggedIn(false);
+
+      // ถ้าไม่มี token และผู้ใช้ไม่ได้อยู่ที่เส้นทาง / หรือ /login, ให้ทำการ redirect ไปที่ /
+      if (!allowedRoutes.includes(currentLocation.pathname)) {
+        navigate('/');
       }
     }
   }, [navigate, currentLocation]);
@@ -27,14 +37,14 @@ const App = () => {
   const handleLogin = (token) => {
     localStorage.setItem('token', token);
     setLoggedIn(true);
-    // Redirect to /data after login
+    // Redirect ไปที่ /data หลังจาก login
     navigate('/data');
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
-    // Redirect to /login after logout
+    // Redirect ไปที่ / หลังจาก logout
     navigate('/');
   };
 
@@ -43,7 +53,7 @@ const App = () => {
       <HeaderComponent isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<LoginComponent onLogin={handleLogin} />} />
-        <Route path="/data" element={isLoggedIn ? <DataComponent /> : <Navigate to="/" replace />} />
+        <Route path="/data" element={isLoggedIn ? <DataComponent /> : <Navigate to="/" />} />
       </Routes>
     </div>
   );

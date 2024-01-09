@@ -57,7 +57,6 @@ const DataComponent = () => {
 
         axios({ method: httpMethod, url: apiUrl, data: requestData, headers: config.headers })
             .then(response => {
-                console.log(response.data);
                 const updatedData = isEditMode
                     ? data.map(item => (item[0] === id ? [id, updatedSerial, updatedStatus] : item))
                     : [...data, [response.data.id, updatedSerial, updatedStatus]];
@@ -73,7 +72,6 @@ const DataComponent = () => {
         // Send the delete request to the server
         axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`,config)
             .then(response => {
-                console.log(response.data);
                 // Remove the deleted item from the data state
                 setData(prevData => prevData.filter(item => item[0] !== id));
                 setEditId(null);
