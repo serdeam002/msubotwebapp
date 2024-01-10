@@ -35,7 +35,7 @@ const DataComponent = () => {
 
     useEffect(() => {
         // Fetch data from the server
-        axios.get('https://msubotserver-edaea1829455.herokuapp.com/api/getdata', config)
+        axios.get('https://msubotserver-edaea1829455.herokuapp.com/api/getserial', config)
             .then(response => {
                 setData(response.data);
             })
@@ -53,8 +53,8 @@ const DataComponent = () => {
 
         const httpMethod = isEditMode ? 'PUT' : 'POST';
         const apiUrl = isEditMode
-            ? `https://msubotserver-edaea1829455.herokuapp.com/api/updatedata/${id}`
-            : 'https://msubotserver-edaea1829455.herokuapp.com/api/adddata';
+            ? `https://msubotserver-edaea1829455.herokuapp.com/api/updateserial/${id}`
+            : 'https://msubotserver-edaea1829455.herokuapp.com/api/addserial';
 
         axios({ method: httpMethod, url: apiUrl, data: requestData, headers: config.headers })
             .then(response => {
@@ -87,7 +87,7 @@ const DataComponent = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Send the delete request to the server
-                axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`, config)
+                axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deleteserial/${id}`, config)
                     .then(response => {
                         // Remove the deleted item from the data state
                         setData(prevData => prevData.filter(item => item[0] !== id));
