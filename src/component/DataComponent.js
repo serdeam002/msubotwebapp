@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../styles/data.css'
 import { Button, Modal, Form } from 'react-bootstrap';
+import Swal from 'sweetalert2'
 
 const DataComponent = () => {
     const [data, setData] = useState([]);
@@ -64,21 +65,45 @@ const DataComponent = () => {
                 setData(updatedData);
                 setEditId(null);
                 handleClose();
+                Swal.fire({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success"
+                  });
             })
             .catch(error => console.error('Error updating/adding data:', error));
     };
 
     const handleDelete = (id) => {
-        // Send the delete request to the server
-        axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`,config)
-            .then(response => {
-                // Remove the deleted item from the data state
-                setData(prevData => prevData.filter(item => item[0] !== id));
-                setEditId(null);
-            })
-            .catch(error => {
-                console.error('Error deleting data:', error);
-            });
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send the delete request to the server
+                axios.delete(`https://msubotserver-edaea1829455.herokuapp.com/api/deletedata/${id}`, config)
+                    .then(response => {
+                        // Remove the deleted item from the data state
+                        setData(prevData => prevData.filter(item => item[0] !== id));
+                        setEditId(null);
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error deleting data:', error);
+                    });
+            }
+        });
+
     };
 
     const handleSearch = (text) => {
